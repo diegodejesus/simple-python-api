@@ -32,9 +32,11 @@ jobs:
         tags: ${GITHUB_SHA}
     
     - name: Update version on manifests files
+      env: 
+        PASSWORD: ${{ .secrets.DOCKER_PASS}}
       run: |
         echo Cloning git repo
-        git clone https://diegodejesus:${{ .secrets.DOCKER_PASS }}@github.com/diegodejesus/simple-python-api.git
+        git clone https://diegodejesus:${PASSWORD}@github.com/diegodejesus/simple-python-api.git
         cd simpe-python-api/
         sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${GITHUB_SHA}|g' deployment.yaml
         git add .
