@@ -28,7 +28,7 @@ jobs:
       with:
         username: diegodejesus
         password: Ven27360
-        repository: simple-python-api
+        repository: diegodejesus/simple-python-api
         tag_with_sha: true
         
     # Runs a set of commands using the runners shell
