@@ -33,7 +33,7 @@ jobs:
     
     - name: Update version on manifests files
       env: 
-        PASSWORD: ${{ .secrets.DOCKER_PASS }}
+        PASSWORD: ${{ secrets.DOCKER_PASS }}
       run: |
         echo Cloning git repo
         git clone https://diegodejesus:${PASSWORD}@github.com/diegodejesus/simple-python-api.git
