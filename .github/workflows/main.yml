@@ -10,6 +10,9 @@ on:
   pull_request:
     branches: [ master ]
 
+env: 
+  DOCKER_TAG: v.1.0.1
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -29,18 +32,22 @@ jobs:
         username: diegodejesus
         password: ${{ secrets.DOCKER_PASS }}
         repository: diegodejesus/simple-python-api
-        tags: ${GITHUB_SHA}
+        tags: ${DOCKER_TAG}
+        
     
-    - name: Update version on manifests files
-      env: 
-        PASSWORD: ${{ secrets.DOCKER_PASS }}
+    - name: checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.ACCESS_TOKEN }}
+        repository: diegodejesus/simple-python-api-charts
+        path: simple-python-api-charts
+    
+    - name: Update Version
       run: |
-        echo Cloning git repo
-        git clone https://diegodejesus:${PASSWORD}@github.com/diegodejesus/simple-python-api.git
         cd simpe-python-api/
-        sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${GITHUB_SHA}|g' deployment.yaml
+        sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${DOCKER_TAG}|g' deployment.yaml
         git add .
-        git commit -am "Updating version on docker container to ${GITHUB_SHA}"
+        git commit -am "Updating version on docker container to ${DOCKER_TAG}"
         git push origin master
         
     # Runs a set of commands using the runners shell
