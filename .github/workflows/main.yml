@@ -19,6 +19,10 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+    
+    - name: get docker version
+      run: |
+        DOCKER_TAG=$(git rev-parse --short HEAD)
 
     # Runs a single command using the runners shell
     - name: Build and push Docker Images
@@ -27,7 +31,7 @@ jobs:
         username: diegodejesus
         password: ${{ secrets.DOCKER_PASS }}
         repository: diegodejesus/simple-python-api
-        tags: ${{ env.GITHUB_SHA }}
+        tags: ${{ env.DOCKER_TAG }}
     
     - name: checkout
       uses: actions/checkout@v2
@@ -39,7 +43,7 @@ jobs:
     - name: Update Version
       run: |
         cd simple-python-api-charts/
-        sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${{ env.GITHUB_SHA }}|g' deployment.yaml
+        sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${{ env.DOCKER_TAG }}|g' deployment.yaml
     
     - name: Add & Commit
       uses: EndBug/add-and-commit@v4.2.1
@@ -50,7 +54,7 @@ jobs:
         author_name: github-bot
         author_email: f.adjmoreno@gmail.com
         force: true
-        message: 'Update container version to ${{ env.GITHUB_SHA }}'
+        message: 'Update container version to ${{ env.DOCKER_TAG }}'
                
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
