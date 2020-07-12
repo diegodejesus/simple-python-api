@@ -26,6 +26,7 @@ jobs:
     - name: Build and push Docker Images
       uses: docker/build-push-action@v1.1.0
       with:
+        registry: docker.pkg.github.com
         username: diegodejesus
         password: ${{ secrets.ACCESS_TOKEN }}
         repository: diegodejesus/simple-python-api/simple-python-api
