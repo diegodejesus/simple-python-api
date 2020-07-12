@@ -10,9 +10,6 @@ on:
   pull_request:
     branches: [ master ]
 
-env: 
-  DOCKER_TAG: v.1.0.1
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -30,9 +27,9 @@ jobs:
       uses: docker/build-push-action@v1.1.0
       with:
         username: diegodejesus
-        password: ${{ secrets.DOCKER_PASS }}
-        repository: diegodejesus/simple-python-api
-        tags: ${DOCKER_TAG}
+        password: ${{ secrets.ACCESS_TOKEN }}
+        repository: diegodejesus/simple-python-api/simple-python-api
+        tag_with_sha: true
         
     
     - name: checkout
