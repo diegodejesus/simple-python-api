@@ -27,7 +27,7 @@ jobs:
       uses: docker/build-push-action@v1.1.0
       with:
         username: diegodejesus
-        password: ${{ secrets.ACCESS_TOKEN }}
+        password: ${{ secrets.DOCKER_PASS }}
         repository: diegodejesus/simple-python-api
         tag_with_ref: true
         
