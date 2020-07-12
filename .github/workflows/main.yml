@@ -19,10 +19,6 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2 
-    
-    - name: Get Short SHA
-      id: slug
-      run: echo '::set-output name=sha8::$(git rev-parse --short HEAD)'
 
     # Runs a single command using the runners shell
     - name: Build and push Docker Images
@@ -31,7 +27,7 @@ jobs:
         username: diegodejesus
         password: ${{ secrets.DOCKER_PASS }}
         repository: diegodejesus/simple-python-api
-        tags: ${{ steps.slug.outputs.sha8 }}
+        tags: ${{ github.sha }}
     
     - name: checkout
       uses: actions/checkout@v2
@@ -43,7 +39,7 @@ jobs:
     - name: Update Version
       run: |
         cd simple-python-api-charts/
-        sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${{ steps.slug.outputs.sha8 }}|g' deployment.yaml
+        sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${{ github.sha }}|g' deployment.yaml
     
     - name: Add & Commit
       uses: EndBug/add-and-commit@v4.2.1
@@ -54,7 +50,7 @@ jobs:
         author_name: github-bot
         author_email: f.adjmoreno@gmail.com
         force: true
-        message: 'Update container version to ${{ steps.slug.outputs.sha8 }}'
+        message: 'Update container version to ${{ github.sha }}'
                
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
