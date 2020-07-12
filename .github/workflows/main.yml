@@ -45,6 +45,8 @@ jobs:
     
     - name: Add & Commit
       uses: EndBug/add-and-commit@4.2.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       with:
         cwd: ./simple-python-api-charts
         author_name: github-bot
