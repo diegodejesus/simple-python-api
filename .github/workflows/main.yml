@@ -26,11 +26,10 @@ jobs:
     - name: Build and push Docker Images
       uses: docker/build-push-action@v1.1.0
       with:
-        registry: docker.pkg.github.com
         username: diegodejesus
         password: ${{ secrets.ACCESS_TOKEN }}
-        repository: diegodejesus/simple-python-api/simple-python-api
-        tag_with_sha: true
+        repository: diegodejesus/simple-python-api
+        tag_with_ref: true
         
     
     - name: checkout
@@ -42,6 +41,7 @@ jobs:
     
     - name: Update Version
       run: |
+        ls  && pwd
         cd simpe-python-api-charts/
         sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${DOCKER_TAG}|g' deployment.yaml
         git add .
