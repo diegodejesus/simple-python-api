@@ -42,7 +42,7 @@ jobs:
     - name: Update Version
       run: |
         ls  && pwd
-        cd simpe-python-api-charts/
+        cd simple-python-api-charts/
         sed -i 's|diegodejesus/simple-python-api:.*|diegodejesus/simple-python-api:${DOCKER_TAG}|g' deployment.yaml
         git add .
         git commit -am "Updating version on docker container to ${DOCKER_TAG}"
