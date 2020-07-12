@@ -22,7 +22,7 @@ jobs:
     
     - name: Get Short SHA
       id: slug
-      run: echo '::set-output name=sha8::$(git rev-parse --short HEAD)
+      run: echo '::set-output name=sha8::$(git rev-parse --short HEAD)'
 
     # Runs a single command using the runners shell
     - name: Build and push Docker Images
